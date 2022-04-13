@@ -7,6 +7,7 @@ import ShopImageModal from "./ShopImageModal";
 import ReviewPhotoModal from "./ReviewPhotoModal";
 import Loader from "./Loader";
 import {
+  ShopContainer,
   ShopImages,
   ShopBody,
   ShopBasicInfo,
@@ -165,6 +166,7 @@ export default function ShopDetail({ match }) {
         return res.data.data.targetshop;
       })
       // KAKAO map api and marker
+      // TODO: 리팩토링때 빼자
       .then((res) => {
         var container = document.getElementById("map");
         var options = {
@@ -203,24 +205,22 @@ export default function ShopDetail({ match }) {
       });
   }, []);
 
+  // TODO: custom mapper, key값 항상 넣어야, total review, review length 확인 한번에, return 뺄수 있음 {} 대신 (), handlereviewclick 갯수 있고 없음 처리하자 , Star 평점 별 공용 컴포넌트로
+  // TODO: React.Fragment div 쓸데없는거
   return (
-    <>
-      {isOpen ? (
+    <ShopContainer>
+      {isOpen && (
         <ShopImageModal
           setOpen={setOpen}
           currentImage={currentImage}
           imageSet={info.shop_pics}
         />
-      ) : (
-        <></>
       )}
-      {isReviewOpen ? (
+      {isReviewOpen && (
         <ReviewPhotoModal
           setReviewOpen={setReviewOpen}
           imageSet={info.reviews[currentReview].review_pics}
         />
-      ) : (
-        <></>
       )}
       <ShopImages>
         {info.shop_pics.map((item, idx) => {
@@ -297,9 +297,9 @@ export default function ShopDetail({ match }) {
                   <th>메뉴</th>
                   <td>
                     <ul style={{ margin: 0, padding: 0 }}>
-                      {info.menus.map((item) => {
+                      {info.menus.map((item, idx) => {
                         return (
-                          <li>
+                          <li key={idx}>
                             {item.menu_name} : {item.price}원
                           </li>
                         );
@@ -310,7 +310,7 @@ export default function ShopDetail({ match }) {
               </tbody>
             </table>
           </ShopDetailInfo>
-          <ShopLocation id="map"></ShopLocation>
+          <ShopLocation id="map" />
         </ShopBasicInfo>
         {!info.total_review ? (
           ""
@@ -382,11 +382,11 @@ export default function ShopDetail({ match }) {
             <Loader />
           ) : (
             <ShopReviewPlusButton onClick={handleReviewPlus}>
-              {reviewCount < info.total_review ? "더 보기" : " "}
+              {reviewCount < info.total_review ? "더 보기" : ""}
             </ShopReviewPlusButton>
           )}
         </ShopReview>
       </ShopBody>
-    </>
+    </ShopContainer>
   );
 }

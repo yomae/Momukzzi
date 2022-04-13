@@ -13,6 +13,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
+export const ShopContainer = styled.div``;
+
 export const ShopImages = styled.div`
   width: 100%;
   height: 250px;
@@ -145,6 +147,7 @@ export const ShopReview = styled.div`
 `;
 
 export const ShopEachReview = styled.div`
+  cursor: pointer;
   border-bottom: 1px solid gainsboro;
   padding: 10px 0px 30px 30px;
   display: flex;

@@ -8,9 +8,11 @@ export const ReviewBody = styled.div`
   margin: 0 auto;
 `;
 
-export const ReviewShopName = styled.span`
-  font-size: 24px;
-  font-weight: bold;
+export const ReviewShopName = styled.div`
+  & > span {
+    font-size: 24px;
+    font-weight: bold;
+  }
 `;
 
 export const ReviewInputText = styled.textarea.attrs({
